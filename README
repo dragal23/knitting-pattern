@@ -15,9 +15,6 @@ Developement TODO:
 
 Write more complete test cases!
 
-Fix segfault on concise print
-
-Modify Makefile to build as shared object!
 
 
 Features TODO:
@@ -31,3 +28,11 @@ Improve display routines to repeat sub sections where
 apropriate. e.g. (k,p)(5) instead of k,p,n,p,n,p
 
 Improve simple dispay routine to split rows sencible when decreased / increased!
+
+
+
+Developement DONE
+
+Fix segfault on concise print - 27/02/11
+
+Modify Makefile to build as shared object! - 27/02/11
