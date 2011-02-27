@@ -3,15 +3,18 @@
 all: test build
 
 
-test: build pattern-test
+test: test/pattern-test test/pattern-test-static
 
+build: build/libpattern.so build/libpattern.a
 
-build: pattern.o
+build/libpattern.a: pattern.c++ pattern.h++
+	g++ -c -fpic -o build/libpattern.a pattern.c++
 
+build/libpattern.so: build/libpattern.a
+	g++ -shared -fpic -o build/libpattern.so build/libpattern.a
 
-pattern.o: pattern.c++ pattern.h++
-	g++ -c pattern.c++
+test/pattern-test-static: pattern-test.c++ build/libpattern.a
+	g++ -Wall -static -o test/pattern-test-static pattern-test.c++ -Lbuild -lpattern
 
-
-pattern-test: pattern-test.c++ pattern.o
-	g++ -o pattern-test pattern-test.c++ pattern.o
+test/pattern-test: pattern-test.c++ build/libpattern.so
+	g++ -Wall -o test/pattern-test pattern-test.c++ -Lbuild -lpattern

@@ -167,11 +167,12 @@ namespace drg {
     }
     
     std::ostream &operator<<(std::ostream &o, const pattern &p) {
-      unsigned int r = p.rows.size() - 1;
+      unsigned int r = p.rows.size();
       // Following doesn't work easily with const patterns!
       // for (std::vector<row>::iterator i = p.rows.rbegin() ; i < p.rows.rend() ; i++) {
       for (unsigned int i = 0 ; i < p.rows.size() ; i++) {
 	o << std::setw(5) << r << ": " << p.rows[i] << std::endl;
+	r--;
       }
       return o;
     }
