@@ -24,10 +24,13 @@ slanting, decrease, imcrease. (stiches such as cabling which naturally
 chain together should also be flaggable. eventially this may allow
 more powerfull gerneration algorythms!)
 
+Implement a way to allow automatic conversion of rows to represent the
+actions needed when knitting on the 'wrong' side!
+
 Improve display routines to repeat sub sections where
 apropriate. e.g. (k,p)(5) instead of k,p,n,p,n,p
 
-Improve simple dispay routine to split rows sencible when decreased / increased!
+Improve simple dispay routine to split rows sensibly when decreased / increased!
 
 
 
