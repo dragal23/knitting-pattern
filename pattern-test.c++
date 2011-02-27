@@ -13,7 +13,7 @@ using namespace drg::knitting;
 using namespace std;
 
 int main(int argc, char **argv) {
-  
+  unsigned int i;
   pattern pat;
   row r(5);
   stitch k("knit", "k");
@@ -21,20 +21,28 @@ int main(int argc, char **argv) {
 
   pat.add_row(r);
   pat.add_row(r);
-  for (unsigned int i = 0 ; i < r.length ; i++) {
+  for (i = 0 ; i < r.length ; i++) {
     r[i] = k;
   }
   pat.add_row(r);
 
-  for (unsigned int i = 0 ; i < r.length ; i++) {
+  for (i = 0 ; i < r.length - 2 ; i++) {
     r[i] = p;
   }
+  for ( ; i < r.length - 2 ; i++) {
+    r[i] = k;
+  }
+
   pat.add_row(r);
   
 
+
   cout << k << endl
        << r << endl
-       << pat
-       << pat.concise() << endl;
+       << r.concise() << endl
+       << r.simple() << endl;
+  
+  cout << pat << endl;
+  cout << pat.concise() << endl;
   
 }

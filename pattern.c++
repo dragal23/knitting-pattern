@@ -74,10 +74,13 @@ namespace drg {
 	for (unsigned int i = 1 ; i < length ; i++) {
 	  if (s[i] != last) {
 	    r << "(" << count << "), "<< s[i].get_abbrv();
+	    count = 1;
+	    last = s[i];
 	  } else {
 	    count++;
 	  }
 	}
+	r << "(" << count << ")";
       }
       return r.str();
     }
@@ -132,15 +135,18 @@ namespace drg {
     
     std::string pattern::concise() const {
       std::stringstream p;
+      unsigned int row = 1;
       //for (std::vector<row>::iterator i = rows.begin() ; i < rows.end() ; i++) {
-      for (unsigned int i = 0 ; i < rows.size() ; i++) {
-	p << rows[i].concise() << std::endl;
+      for (int i = rows.size() - 1 ; i >= 0 ; i--) {
+	p << std::setw(5) << row++ << ": " << rows[i].concise() << std::endl;
+
       }
+      return p.str();
     }
     
     row &pattern::operator[](const unsigned int i) {
       try {
-	rows[i];
+	return rows[i];
       } catch (std::exception &e) {
 	throw;
       }
@@ -164,6 +170,7 @@ namespace drg {
 
     pattern &pattern::operator=(const pattern &p) {
       rows = p.rows;
+      return *this;
     }
     
     std::ostream &operator<<(std::ostream &o, const pattern &p) {
