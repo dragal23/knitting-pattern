@@ -1,0 +1,37 @@
+
+
+
+
+When thinking about knitting from a computational perspective we need
+more precise terms than are normally used. To this end I will use the
+following definitions.
+
+
+
+Think of all stitches as mappings from some number of loops on the
+previous row (the parents) to some number of loops (the children) on
+the next. 
+This could accomedate reordering stitches (cabling) and increasing /
+decreasing.
+In the latter cases there will be an offset i.e. increase 1 to 2
+slanting right would be +1 as all the stitches to the right will be
+offset 1. If it were left slanting it would be -1
+
+
+
+loop:
+A loop of yarn around a needle which, in the normal course of things,
+we would expect to knit through.
+
+conserving stitch:
+Any loop conserving action. i.e. any action where one loop in the
+previous row is knitted through to create one stitch in the next
+row. Note that stitch order does not have to be conserved.
+
+decreasing stitch:
+Any atomic action which reduces the number of stitches. i.e. where
+more than one stitch in a row are knitted through to create one loop
+on the next row.
+
+increasing stitch:
+Any atomic action which increases the number of loops.
