@@ -79,10 +79,21 @@ namespace drg {
       
       pattern()
 	: rows() { }
-      pattern(const unsigned int columns, const unsigned int rows) {
-	for (unsigned int i = 0 ; i < rows ; i++) {
-	  add_row(row(columns));
+      pattern(const unsigned int rows_, const unsigned int columns_) {
+	for (unsigned int i = 0 ; i < rows_ ; i++) {
+	  add_row(row(columns_));
 	}
+      }
+      pattern(const unsigned int rows_, const unsigned int columns_, stitch &s) {
+	for (unsigned int i = 0 ; i < rows_ ; i++) {
+	  add_row(row(columns_));
+	}
+	for (unsigned int r = 0 ; r < rows_ ; r++) {
+	  for (unsigned int c = 0 ; c < columns_ ; c++) {
+	    rows[r][c] = s;
+	  }
+	}
+
       }
      
       void add_row(const row &r);
