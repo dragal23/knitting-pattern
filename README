@@ -10,6 +10,10 @@ patterns are comprised of rows. These in turn comprise of stitches. A
 stich is a name and an abreviation. Rows in the pattern can be of any
 size.
 
+generators contains proof of concept code. This will be developed
+concurrently with the library itself as flaws and useful features will
+be fed back into the developement of the library itself!
+
 
 Developement TODO:
 
@@ -17,7 +21,14 @@ Write more complete test cases!
 
 
 
+
 Features TODO:
+
+At the moment the simple view breakes if:
+   1) The abbreviations are of varying length
+   2) A stitch uses more than one 'simple' stitch
+      I will call such stitches 'complex stitches'
+See Notes for thoughts on this!
 
 Extend stitches to allow more information to be stored: eg left
 slanting, decrease, imcrease. (stiches such as cabling which naturally
