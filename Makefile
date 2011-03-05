@@ -9,6 +9,20 @@ export LD_INSTALL_PATH=/home/dragal/lib
 
 all: build test generators
 
+
+clean:
+	pushd build/
+	rm *
+	pushd generators/
+	rm *
+	popd
+	popd
+	pushd test
+	rm *
+	popd
+
+
+
 install: build
 	cp build/libpattern.a build/libpattern.so $(LIB_INSTALL_DIR)
 	cp src/pattern.h++ $(INCLUDE_INSTALL_DIR)
