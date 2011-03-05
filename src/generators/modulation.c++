@@ -3,8 +3,13 @@
 #include <cmath>
 #include <queue>
 #include <string>
+#include <psk.h++>
+#include <cassert>
+#include <algorithm>
+
 
 using namespace drg::knitting;
+using namespace drg::modulation;
 using namespace std;
 
 stitch k("Knit", "k");
@@ -15,29 +20,16 @@ stitch c3l("Cable 3 left", "-\\-");
 stitch c3r("Cable 3 right", "-/-");
 stitch c4l("Cable 4 left", "-\\\\-");
 stitch c4r("Cable 4 right", "-//-");
+stitch c5l("Cable 5 left", "-\\\\\\-");
+stitch c5r("Cable 5 right", "-///-");
+stitch c6l("Cable 6 left", "-\\\\\\\\-");
+stitch c6r("Cable 6 right", "-////-");
+stitch c7l("Cable 7 left", "-\\\\\\\\\\-");
+stitch c7r("Cable 7 right", "-/////-");
 stitch s("Slip", "s");
 
 
 
-queue<unsigned int> split_message(string mesg, unsigned int chunk_size) {
-  queue<unsigned int> split_mesg;
-  for (string::iterator i = mesg.begin() ; i < mesg.end() ; i++) {
-    char c = *i;
-    unsigned int mask = pow(2, chunk_size);
-    split_mesg.push(c^mask);
-    c >>= 2;
-    split_mesg.push(c^mask);
-    c >>= 2;
-    split_mesg.push(c^mask);
-    c >>= 2;
-    split_mesg.push(c^mask);
-  }
-  return split_mesg;
-}
-
-double calc_phase_shift(unsigned int chunk, unsigned int order) {
-  return chunk * 2 * M_PI / pow(2, order);
-}
 
 void cable_from_to(pattern &p,
 		   unsigned int r1, unsigned int c1,
@@ -45,70 +37,93 @@ void cable_from_to(pattern &p,
   //DRG TODO change so it doesn't assume r1 and r2 are adjacent.
 
   switch (c1 - c2) {
-  case (3)  : p[r2][c2] = c4r;
+    //  case (6)  : p[r2][c2] = c7l;
+    //    break;
+  case (5)  : p[r2][c2] = c6l;
+    break; 
+  case (4)  : p[r2][c2] = c5l;
     break;
-  case (2)  : p[r2][c2] = c3r;
+  case (3)  : p[r2][c2] = c4l;
     break;
-  case (1)  : p[r2][c2] = c2r;
+  case (2)  : p[r2][c2] = c3l;
     break;
-  case (-1) : p[r2][c1] = c2l;
+  case (1)  : p[r2][c2] = c2l;
     break;
-  case (-2) : p[r2][c1] = c3l;
+  case (0)  : p[r2][c1] = (p[r2-1][c2] == s) ? k : s;
     break;
-  case (-3) : p[r2][c1] = c4l;
+  case (-1) : p[r2][c1] = c2r;
     break;
-  default   : p[r2][c1] = (p[r2-1][c2] == s) ? k : s;
+  case (-2) : p[r2][c1] = c3r;
+    break;
+  case (-3) : p[r2][c1] = c4r;
+    break;
+  case (-4) : p[r2][c1] = c5r;
+    break;
+  case (-5) : p[r2][c1] = c6r;
+    break;
+    //  case (-6) : p[r2][c1] = c7r;
+    //    break;
+  default   : for (unsigned int i = min(c1, c2) ; i < max(c1, c2) ; i++) 
+                p[r2][i] = s;
+      
   }
 
 
-}
-
-
-pattern modulate_message(string mesg,
-			 unsigned int rows, unsigned int columns,
-			 unsigned int amplitide,
-			 unsigned int y_zero, unsigned int x_zero,
-			 unsigned int wave_length, unsigned int chunk_length) {
-  pattern p(rows, columns, k);
-
-  unsigned int y;
-  unsigned int y_;
-
-  double dx = M_PI * 2 / wave_length;
-
-  queue<unsigned int> split_mesg = split_message(mesg, 2);
-  
-  y_ = 20;
-
-  for (unsigned int x = 1 ; x < (rows - chunk_length)  && !split_mesg.empty() ; x += chunk_length) {
-    cout << x << ", " << flush;
-    double phase = calc_phase_shift(split_mesg.front(), 2);
-    
-    split_mesg.pop();
-
-
-    for (unsigned int x_ = x ; x_ < (x + chunk_length) ; x_++) {
-      y = round(10 + ((sin(((x_-1)*dx) + phase) + 1) * 10)); 
-  
-      cable_from_to(p, x_ - 1, y_, x_, y);
-    
-      y_ = y;
-    }
-  }
-  return p;
 }
 
 
 int main(int argc, char ** argv) {
-  pattern p;
-  vector<unsigned char> m;
+  cout << "start" << endl;
 
-  p = modulate_message("modulation", 800, 40, 10, 20, 1, 20, 20);
+  // Initialize out pattern in plain garter stitch!
+  pattern p(800, 40, k);
 
-    
-  std::cout << p.concise() << endl
-	    << p;
+  // Our library of encodings (as consellation)
+  constellations con;
+
+  /* Initialise our PSK modulator.
+     With interval 1 and frequency 1 each baud takes 1 second. thereby the 
+     length of our signal will be <length> * 4 seconds */
+  psk mod(1, 2, 1, con.get("4qam"));
   
+  string msg("PSK Modulation");
+
+  cout << "foo" << endl;
+
+  /* Generate our signal. We want this to take approximataly 700 samples to
+     complete. Thereby the sample rate should be:
+     msg.length() * 4 / 700 */ 
+  cout << msg.length() << ", " << (msg.length() * 4.0) / 700 << endl;
+
+  vector<pair<double, double> > signal = mod.generate(msg, (msg.length() * 4.0) / 700);
+  
+  cout << "foo" << endl;
+  
+
+  // Allow for rounding error in our assert!
+  //  assert(0 <= (700 - signal.size()) && (700 - signal.size()) <= 1);
+  cout << "signal length = " << signal.size() << endl;
+
+
+  //Add to pattern!
+  unsigned int r = 5;
+  
+  vector<pair<double, double> >::iterator i = signal.begin();
+
+
+  cout << "foo" << endl;
+  
+  unsigned int c_ = 20 + ((*i).second * 10);
+  i++;
+  for ( ; i < signal.end() ; i++) {
+    unsigned int c = 20 + ((*i).second * 10);
+    cable_from_to(p, r-1, c_, r, c);
+    r++;
+    c_ = c;
+  }
+  
+  cout << p << endl;
+
   return 0;
 }
 

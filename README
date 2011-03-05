@@ -15,34 +15,25 @@ concurrently with the library itself as flaws and useful features will
 be fed back into the developement of the library itself!
 
 
+IMPORTANT:
+The program modulation depends on libpsk, which is found in my
+modulation repository (git@github.com:dragal23/modulation.git). The
+easiest way to compile this is to get and compile the modulations repo
+and install it. Edit the Makefile to specify your desired include and
+lib locations.
+
+You'll have to set up 
+
+
+
+
 Developement TODO:
 
-Write more complete test cases!
 
 
 
 
 Features TODO:
-
-At the moment the simple view breakes if:
-   1) The abbreviations are of varying length
-   2) A stitch uses more than one 'simple' stitch
-      I will call such stitches 'complex stitches'
-See Notes for thoughts on this!
-
-Extend stitches to allow more information to be stored: eg left
-slanting, decrease, imcrease. (stiches such as cabling which naturally
-chain together should also be flaggable. eventially this may allow
-more powerfull gerneration algorythms!)
-
-Implement a way to allow automatic conversion of rows to represent the
-actions needed when knitting on the 'wrong' side!
-
-Improve display routines to repeat sub sections where
-apropriate. e.g. (k,p)(5) instead of k,p,n,p,n,p
-
-Improve simple dispay routine to split rows sensibly when decreased / increased!
-
 
 
 Developement DONE

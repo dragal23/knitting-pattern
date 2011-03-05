@@ -1,3 +1,4 @@
+
 /// File: pattern.h++
 /// Author: Gregory Rickeard
 /// Data: 26/02/2011
@@ -18,7 +19,14 @@
 namespace drg {
   namespace knitting {
 
+    /// Would a loop class be appropriate. Each loop could have pointers to children
+    /// (and possibly parants). This would allow direct analysis of flow!
+
     
+    /// Some way of addressing the issue of when to twist the yarns when 
+    /// using intarsia knitting.
+
+
     class stitch {
       std::string name;
       std::string abbrv;
@@ -27,14 +35,17 @@ namespace drg {
 	: name(), abbrv() { }
       stitch(const std::string &n, const std::string &a)
 	: name(n), abbrv(a) { }
-
+      
       const std::string &get_name();
       const std::string &get_abbrv();
       bool operator==(const stitch &s) const;
       bool operator!=(const stitch &s) const;
       stitch &operator=(const stitch &s);
+
+      unsigned int consumes();
+      unsigned int produces();
+
       friend std::ostream &operator<<(std::ostream &o, const stitch &s);
-      
     };
 
 
