@@ -1,0 +1,29 @@
+Write more complete test cases!
+
+Add definitions for standard stitches
+
+Move cable_from_to to pattern.h++
+
+Change cable_from_to so the either:
+a) It does not assume rows are adjacens and interpollates liniarly
+b) It checks that rows are adjacent
+
+
+At the moment the simple view breakes if:
+   1) The abbreviations are of varying length
+   2) A stitch uses more than one 'simple' stitch
+      I will call such stitches 'complex stitches'
+See Notes for thoughts on this!
+
+Extend stitches to allow more information to be stored: eg left
+slanting, decrease, imcrease. (stiches such as cabling which naturally
+chain together should also be flaggable. eventially this may allow
+more powerfull gerneration algorythms!)
+
+Implement a way to allow automatic conversion of rows to represent the
+actions needed when knitting on the 'wrong' side!
+
+Improve display routines to repeat sub sections where
+apropriate. e.g. (k,p)(5) instead of k,p,n,p,n,p
+
+Improve simple dispay routine to split rows sensibly when decreased / increased!
