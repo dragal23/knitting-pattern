@@ -5,20 +5,19 @@ INCLUDE_INSTALL_DIR=~/include
 
 
 export LD_INSTALL_PATH=/home/dragal/lib
-
+export SHELL=/bin/bash
 
 all: build test generators
 
 
 clean:
-	pushd build/
-	rm *
-	pushd generators/
-	rm *
-	popd
-	popd
-	pushd test
-	rm *
+	pushd build;\
+	rm *;\
+	pushd generators;\
+	rm *;\
+	popd; popd;\
+	pushd test;\
+	rm *;\
 	popd
 
 
