@@ -7,7 +7,7 @@ At the moment it is rather basic and not overly functional.
 
 
 patterns are comprised of rows. These in turn comprise of stitches. A
-stich is a name and an abreviation. Rows in the pattern can be of any
+stich is a name and an abbreviation. Rows in the pattern can be of any
 size.
 
 generators contains proof of concept code. This will be developed
